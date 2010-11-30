@@ -6,32 +6,31 @@
 {% block content %}
 	<h2>{% trans 'Register' %}</h2>
 
-	<form action="." method="post">
-		{% csrf_token %}
+	<form action="." method="post">{% csrf_token %}
 
 		{% if form.hidden_fields %}
-		{% for item in form.hidden_fields %}
-		{{ item }}
-		{% endfor %}
+			{% for item in form.hidden_fields %}
+				{{ item }}
+			{% endfor %}
 		{% endif %}
 
 		{% if form.non_field_errors %}
-		<p class="form-error">
-			{% for error in form.non_field_errors %}
-			<span class="form-error-msg">{{ error }}</span>
-			{% endfor %}
-		</p>
+			<p class="form-error">
+				{% for error in form.non_field_errors %}
+				<span class="form-error-msg">{{ error }}</span>
+				{% endfor %}
+			</p>
 		{% endif %}
 
-		{% for field in form %}
-		<p class="form-field{% if field.field.required %} required{% endif %}">
-			<label for="id_{{ field.name }}">{{ field.label }}</label>
-			{{ field }}
+		{% for field in form.visible_fields %}
+			<p class="form-field{% if field.field.required %} required{% endif %}">
+				<label for="id_{{ field.name }}">{{ field.label }}</label>
+				{{ field }}
 
-			{% if field.errors %}
-			<span class="form-field-error">{{ field.errors|join:"," }}</span>
-			{% endif %}
-		</p>
+				{% if field.errors %}
+				<span class="form-field-error">{{ field.errors|join:"," }}</span>
+				{% endif %}
+			</p>
 		{% endfor %}
 
 		<p class="form-buttons">

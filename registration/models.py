@@ -10,6 +10,11 @@ from django.template.loader import render_to_string
 from django.utils.hashcompat import sha_constructor
 from django.utils.translation import ugettext_lazy as _
 
+from programs import middleware as tls
+
+# 5000hands specific coding
+
+
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
@@ -242,9 +247,14 @@ class RegistrationProfile(models.Model):
             framework for details regarding these objects' interfaces.
 
         """
+
         ctx_dict = {'activation_key': self.activation_key,
                     'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
-                    'site': site}
+                    'site': site, 
+                    # additional for 5000hands
+                    'program': tls.get_current_program(),
+                    'program_domain': tls.get_current_domain(),
+                    }
         subject = render_to_string('registration/activation_email_subject.txt',
                                    ctx_dict)
         # Email subject *must not* contain newlines

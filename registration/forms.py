@@ -10,6 +10,10 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 
+from signup_codes.models import check_signup_code #SignupCode
+from programs.middleware import get_current_program
+
+
 # I put this on all required fields, because it's easier to pick up
 # on them with CSS or JavaScript if they have a class of "required"
 # in the HTML. Your mileage may vary. If/when Django ticket #3515
@@ -168,6 +172,78 @@ class EmailRegistrationForm(forms.Form):
             if self.cleaned_data['password1'] != self.cleaned_data['password2']:
                 raise forms.ValidationError(_("The two password fields didn't match."))
         return self.cleaned_data
+
+class EmailCodeRegistrationForm(forms.Form):
+    """
+    Form for registering a new user account + signup codes.
+    
+    Validates that the requested username is not already in use, and
+    requires the password to be entered twice to catch typos.
+    
+    Subclasses should feel free to add any additional validation they
+    need, but should avoid defining a ``save()`` method -- the actual
+    saving of collected user data is delegated to the active
+    registration backend.
+    
+    """
+    email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
+                                                               maxlength=75)),
+                             label=_("Email address"))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+                                label=_("Password"))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+                                label=_("Password (again)"))
+
+    def __init__(self, *args, **kwargs):
+        super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
+
+        # my hack - no need for sign up code if they are in a program
+        if get_current_program():
+            self.fields['signup_code'] = forms.CharField(max_length=40, required=False, widget=forms.widgets.HiddenInput())
+        else:
+            self.fields['signup_code'] = forms.CharField(max_length=40, required=False, widget=forms.PasswordInput(),
+                                label=_("Signup Code"))
+   
+    def clean_email(self):
+        """
+        Validate that the supplied email address is unique for the
+        site.
+        
+        """
+        if User.objects.filter(email__iexact=self.cleaned_data['email']):
+            raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
+        return self.cleaned_data['email']
+
+
+    def clean_signup_code(self):
+        code = self.cleaned_data.get("signup_code")
+
+        # my hack - no need to use signup if they are in a program
+        if get_current_program():
+            signup_code = True
+        else:
+            signup_code = check_signup_code(code)
+
+        if signup_code:
+            return signup_code
+        else:
+            raise forms.ValidationError("Signup code was not valid.")
+
+
+    def clean(self):
+        """
+        Verifiy that the values entered into the two password fields
+        match. Note that an error here will end up in
+        ``non_field_errors()`` because it doesn't apply to a single
+        field.
+        
+        """
+        if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
+            if self.cleaned_data['password1'] != self.cleaned_data['password2']:
+                raise forms.ValidationError(_("The two password fields didn't match."))
+        return self.cleaned_data
+
+
 
 class EmailAuthenticationForm(forms.Form):
     """

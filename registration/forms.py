@@ -3426,7 +3426,7 @@ class EmailAuthenticationForm(forms.Form):
 
     """
     email = forms.EmailField(label=_("Email"), max_length=255)
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(render_value=False))
 
     def __init__(self, request=None, *args, **kwargs):
         """

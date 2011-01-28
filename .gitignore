@@ -6,3 +6,4 @@ build
 dist
 twython.egg-info
 *.swp
+django_registration.egg-info

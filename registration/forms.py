@@ -155,9 +155,9 @@ class EmailRegistrationForm(forms.Form):
         site.
         
         """
-        if User.objects.filter(email__iexact=self.cleaned_data['email']):
+        if User.objects.filter(email=self.cleaned_data['email'].lower()):
             raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
-        return self.cleaned_data['email']
+        return self.cleaned_data['email'].lower()
 
 
     def clean(self):
@@ -210,9 +210,9 @@ class EmailCodeRegistrationForm(forms.Form):
         site.
         
         """
-        if User.objects.filter(email__iexact=self.cleaned_data['email']):
+        if User.objects.filter(email=self.cleaned_data['email'].lower()):
             raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
-        return self.cleaned_data['email']
+        return self.cleaned_data['email'].lower()
 
 
     def clean_signup_code(self):

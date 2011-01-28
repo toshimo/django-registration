@@ -10,11 +10,6 @@ from django.template.loader import render_to_string
 from django.utils.hashcompat import sha_constructor
 from django.utils.translation import ugettext_lazy as _
 
-from programs import middleware as tls
-
-# 5000hands specific coding
-
-
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
@@ -170,7 +165,7 @@ class RegistrationProfile(models.Model):
     """
     ACTIVATED = u"ALREADY_ACTIVATED"
     
-    user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
+    user = models.OneToOneField(User, primary_key=True, verbose_name=_('user'))
     activation_key = models.CharField(_('activation key'), max_length=40)
     
     objects = RegistrationManager()
@@ -250,10 +245,7 @@ class RegistrationProfile(models.Model):
 
         ctx_dict = {'activation_key': self.activation_key,
                     'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
-                    'site': site, 
-                    # additional for 5000hands
-                    'program': tls.get_current_program(),
-                    'program_domain': tls.get_current_domain(),
+                    'site': site,
                     }
         subject = render_to_string('registration/activation_email_subject.txt',
                                    ctx_dict)

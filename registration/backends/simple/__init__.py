@@ -4,7 +4,8 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 
 from registration import signals
-from registration.forms import RegistrationForm
+from registration.forms import RegistrationForm, EmailRegistrationForm
+from registration.utils import generate_unique_username
 
 
 class SimpleBackend(object):
@@ -20,12 +21,13 @@ class SimpleBackend(object):
         Create and immediately log in a new user.
 
         """
-        username, email, password = kwargs['username'], kwargs['email'], kwargs['password1']
+        email, password = kwargs['email'], kwargs['password1']
+        username = generate_unique_username(email)
         User.objects.create_user(username, email, password)
 
         # authenticate() always has to be called before login(), and
         # will return the user we just created.
-        new_user = authenticate(username=username, password=password)
+        new_user = authenticate(email=email, password=password)
         login(request, new_user)
         signals.user_registered.send(sender=self.__class__,
                                      user=new_user,
@@ -51,6 +53,7 @@ class SimpleBackend(object):
         return getattr(settings, 'REGISTRATION_OPEN', True)
 
     def get_form_class(self, request):
+        return EmailRegistrationForm
         return RegistrationForm
 
     def post_registration_redirect(self, request, user):
@@ -58,7 +61,7 @@ class SimpleBackend(object):
         After registration, redirect to the user's account page.
 
         """
-        return (user.get_absolute_url(), (), {})
+        return ('registration_complete', (), {})
 
     def post_activation_redirect(self, request, user):
         raise NotImplementedError

@@ -5,8 +5,7 @@ from django.contrib.sites.models import Site
 from registration import signals
 from registration.forms import EmailRegistrationForm
 from registration.models import RegistrationProfile
-
-from utils import generate_unique_username
+from registration.utils import generate_unique_username
 
 
 class EmailBackend(object):
@@ -72,8 +71,8 @@ class EmailBackend(object):
         class of this backend as the sender.
 
         """
-        username = generate_unique_username()
         email, password = kwargs['email'], kwargs['password1']
+        username = generate_unique_username(email)
         if Site._meta.installed:
             site = Site.objects.get_current()
         else:

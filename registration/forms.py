@@ -40,7 +40,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -142,7 +142,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -187,7 +187,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -329,7 +329,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -431,7 +431,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -476,7 +476,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -618,7 +618,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -720,7 +720,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -765,7 +765,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -907,7 +907,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -1009,7 +1009,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -1054,7 +1054,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -1196,7 +1196,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -1298,7 +1298,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -1343,7 +1343,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -1485,7 +1485,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -1587,7 +1587,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -1632,7 +1632,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -1774,7 +1774,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -1876,7 +1876,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -1921,7 +1921,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -2063,7 +2063,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -2165,7 +2165,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -2210,7 +2210,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -2352,7 +2352,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -2454,7 +2454,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -2499,7 +2499,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -2641,7 +2641,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -2743,7 +2743,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -2788,7 +2788,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -2930,7 +2930,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -3032,7 +3032,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -3077,7 +3077,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
@@ -3219,7 +3219,7 @@ class RegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -3321,7 +3321,7 @@ class EmailRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
     
     def clean_email(self):
         """
@@ -3366,7 +3366,7 @@ class EmailCodeRegistrationForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
-                                label=_("Password (again)"))
+                                label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)

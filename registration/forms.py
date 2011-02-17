@@ -3466,3 +3466,81 @@ class EmailAuthenticationForm(forms.Form):
         return self.user_cache
 
 
+from django.core.validators import validate_email
+class EmailOrCharField(forms.CharField):
+    default_error_messages = {
+        'invalid': _(u'Enter a valid e-mail address or username.'),
+    }
+    def clean(self, value):
+        value = self.to_python(value).strip()
+        return super(EmailOrCharField, self).clean(value)
+    
+    def validate(self, value):
+        "Check that the value is only a username or an email."
+        
+        # Make sure that the CharField part is valid
+        super(EmailOrCharField, self).validate(value)
+        
+        # If there is an '@', validate as an email address
+        if '@' in value:
+            validate_email(value)
+        else:
+            # It should be a username and is validated by other validators
+            pass
+    
+
+
+class EmailOrUsernameAuthenticationForm(forms.Form):
+    """
+    Replacement to do authentication with an email or username
+    this is used in conjunction with auth.EmailModelBackend to accept email
+    
+    """
+    email = EmailOrCharField(label=_("Email or username"), max_length=255)
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(render_value=False))
+    persistent = forms.BooleanField(label=_("Keep me logged in"), required=False, initial=True)
+    
+    def __init__(self, request=None, *args, **kwargs):
+        """
+        If request is passed in, the form will validate that cookies are
+        enabled. Note that the request (a HttpRequest object) must have set a
+        cookie with the key TEST_COOKIE_NAME and value TEST_COOKIE_VALUE before
+        running this validation.
+        """
+        self.request = request
+        self.user_cache = None
+        super(EmailOrUsernameAuthenticationForm, self).__init__(*args, **kwargs)
+    
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+        persistent = self.cleaned_data.get('persistent')
+        
+        if email and password:
+            if '@' in email:
+                # We got an email address
+                self.user_cache = authenticate(email=email, password=password)
+            else:
+                # Log in with a username
+                self.user_cache = authenticate(username=email, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError(_("Please enter a correct username or email and password. Note that both fields are case-sensitive."))
+            elif not self.user_cache.is_active:
+                raise forms.ValidationError(_("This account is inactive."))
+        
+        if self.request:
+            if self.request.session and not persistent:
+                # Mark the session cookie as going away when the window gets closed
+                self.request.session.set_expiry(0)
+        
+        return self.cleaned_data
+    
+    def get_user_id(self):
+        if self.user_cache:
+            return self.user_cache.id
+        return None
+    
+    def get_user(self):
+        return self.user_cache
+
+

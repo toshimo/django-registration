@@ -3496,8 +3496,8 @@ class EmailOrUsernameAuthenticationForm(forms.Form):
     this is used in conjunction with auth.EmailModelBackend to accept email
     
     """
-    email = EmailOrCharField(label=_("Email or username"), max_length=255)
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(render_value=False))
+    email = EmailOrCharField(label=_("Email or username"), max_length=255, widget=forms.TextInput(attrs={'placeholder': _('Email or username')}))
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(render_value=False, attrs={'placeholder': _('Password')}))
     persistent = forms.BooleanField(label=_("Keep me logged in"), required=False, initial=True)
     
     def __init__(self, request=None, *args, **kwargs):

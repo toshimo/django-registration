@@ -4,6 +4,7 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 
 from registration import signals
+from registration.backends.default import DefaultBackend
 from registration.forms import RegistrationForm, EmailRegistrationForm
 from registration.utils import generate_unique_username
 

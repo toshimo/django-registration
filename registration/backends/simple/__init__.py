@@ -8,7 +8,7 @@ from registration.forms import RegistrationForm, EmailRegistrationForm
 from registration.utils import generate_unique_username
 
 
-class SimpleBackend(object):
+class SimpleBackend(DefaultBackend):
     """
     A registration backend which implements the simplest possible
     workflow: a user supplies a username, email address and password

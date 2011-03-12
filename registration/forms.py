@@ -3,18 +3,10 @@ Forms and validation code for user registration.
 
 """
 
-
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-
-# I put this on all required fields, because it's easier to pick up
-# on them with CSS or JavaScript if they have a class of "required"
-# in the HTML. Your mileage may vary. If/when Django ticket #3515
-# lands in trunk, this will no longer be necessary.
-attrs_dict = {'class': 'required'}
-
 
 class RegistrationForm(forms.Form):
     """
@@ -31,15 +23,14 @@ class RegistrationForm(forms.Form):
     """
     username = forms.RegexField(regex=r'^\w+$',
                                 max_length=30,
-                                widget=forms.TextInput(attrs=attrs_dict),
+                                widget=forms.TextInput(),
                                 label=_("Username"),
                                 error_messages={'invalid': _("This value must contain only letters, numbers and underscores.")})
-    email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
-                                                               maxlength=75)),
+    email = forms.EmailField(widget=forms.TextInput(attrs=dict(maxlength=75)),
                              label=_("Email address"))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+    password1 = forms.CharField(widget=forms.PasswordInput(render_value=False),
                                 label=_("Password"))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+    password2 = forms.CharField(widget=forms.PasswordInput(render_value=False),
                                 label=_("Reenter Password"))
     
     def clean_username(self):
@@ -74,7 +65,7 @@ class RegistrationFormTermsOfService(RegistrationForm):
     for agreeing to a site's Terms of Service.
     
     """
-    tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
+    tos = forms.BooleanField(widget=forms.CheckboxInput(),
                              label=_(u'I have read and agree to the Terms of Service'),
                              error_messages={'required': _("You must agree to the terms to register")})
 
@@ -136,12 +127,11 @@ class EmailRegistrationForm(forms.Form):
     registration backend.
     
     """
-    email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
-                                                               maxlength=75)),
+    email = forms.EmailField(widget=forms.TextInput(attrs=dict(maxlength=75)),
                              label=_("Email address"))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+    password1 = forms.CharField(widget=forms.PasswordInput(render_value=False),
                                 label=_("Password"))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+    password2 = forms.CharField(widget=forms.PasswordInput(render_value=False),
                                 label=_("Reenter Password"))
     
     def clean_email(self):
@@ -181,12 +171,11 @@ class EmailCodeRegistrationForm(forms.Form):
     registration backend.
     
     """
-    email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
-                                                               maxlength=75)),
+    email = forms.EmailField(widget=forms.TextInput(attrs=dict(maxlength=75)),
                              label=_("Email address"))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+    password1 = forms.CharField(widget=forms.PasswordInput(render_value=False),
                                 label=_("Password"))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+    password2 = forms.CharField(widget=forms.PasswordInput(render_value=False),
                                 label=_("Reenter Password"))
 
     def __init__(self, *args, **kwargs):

@@ -22,16 +22,16 @@ class RegistrationForm(forms.Form):
     
     """
     username = forms.RegexField(regex=r'^\w+$',
-                                max_length=30,
-                                widget=forms.TextInput(),
-                                label=_("Username"),
-                                error_messages={'invalid': _("This value must contain only letters, numbers and underscores.")})
+                            max_length=30,
+                            widget=forms.TextInput(),
+                            label=_("Username"),
+                            error_messages={'invalid': _("This value must contain only letters, numbers and underscores.")})
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(maxlength=75)),
-                             label=_("Email address"))
+                            label=_("Email address"))
     password1 = forms.CharField(widget=forms.PasswordInput(render_value=False),
-                                label=_("Password"))
+                            label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(render_value=False),
-                                label=_("Reenter Password"))
+                            label=_("Reenter Password"))
     
     def clean_username(self):
         """
@@ -66,8 +66,8 @@ class RegistrationFormTermsOfService(RegistrationForm):
     
     """
     tos = forms.BooleanField(widget=forms.CheckboxInput(),
-                             label=_(u'I have read and agree to the Terms of Service'),
-                             error_messages={'required': _("You must agree to the terms to register")})
+                            label=_(u'I have read and agree to the Terms of Service'),
+                            error_messages={'required': _("You must agree to the terms to register")})
 
 
 class RegistrationFormUniqueEmail(RegistrationForm):
@@ -158,6 +158,7 @@ class EmailRegistrationForm(forms.Form):
                 raise forms.ValidationError(_("The two password fields didn't match."))
         return self.cleaned_data
 
+
 class EmailCodeRegistrationForm(forms.Form):
     """
     Form for registering a new user account + signup codes.
@@ -227,6 +228,8 @@ class EmailCodeRegistrationForm(forms.Form):
         return self.cleaned_data
 
 
+################################################################################
+# Authentication Forms
 
 class EmailAuthenticationForm(forms.Form):
     """
@@ -275,7 +278,6 @@ class EmailAuthenticationForm(forms.Form):
         return self.user_cache
 
 
-from django.core.validators import validate_email
 class EmailOrCharField(forms.CharField):
     default_error_messages = {
         'invalid': _(u'Enter a valid e-mail address or username.'),
@@ -286,16 +288,20 @@ class EmailOrCharField(forms.CharField):
     
     def validate(self, value):
         "Check that the value is only a username or an email."
-        
         # Make sure that the CharField part is valid
         super(EmailOrCharField, self).validate(value)
         
         # If there is an '@', validate as an email address
         if '@' in value:
+            from django.core.validators import validate_email
             validate_email(value)
         else:
-            # It should be a username and is validated by other validators
-            pass
+            # It should be a username so make sure it is valid
+            from django.core.validators import RegexValidator
+            import re
+            validator = RegexValidator(regex=re.compile(r'^\w+$'),
+                message=u"This value must contain only letters, numbers and underscores.")
+            validator(value)
     
 
 
@@ -305,9 +311,14 @@ class EmailOrUsernameAuthenticationForm(forms.Form):
     this is used in conjunction with auth.EmailModelBackend to accept email
     
     """
-    email = EmailOrCharField(label=_("Email or username"), max_length=255, widget=forms.TextInput(attrs={'placeholder': _('Email or username')}))
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(render_value=False, attrs={'placeholder': _('Password')}))
-    persistent = forms.BooleanField(label=_("Keep me logged in"), required=False, initial=True)
+    email = EmailOrCharField(label=_("Email or username"),
+                        max_length=255,
+                        widget=forms.TextInput(attrs={'placeholder': _('Email or username')}))
+    password = forms.CharField(label=_("Password"),
+                        widget=forms.PasswordInput(render_value=False, attrs={'placeholder': _('Password')}))
+    persistent = forms.BooleanField(label=_("Keep me logged in"),
+                        required=False,
+                        initial=True)
     
     def __init__(self, request=None, *args, **kwargs):
         """

@@ -1,45 +1,18 @@
 {% extends "registration/base_registration.html" %}
-{% load i18n %}
 
-{% block title %}{% trans 'Log in' %}{% endblock %}
+{% block title %}Log in{% endblock %}
+{% block body_class %}{{ block.super }} login_form{% endblock %}
+
+
+{% block content_title %}
+  <h2>Log in</h2>
+{% endblock %}
+
 
 {% block content %}
-	<h2>{% trans 'Log in' %}</h2>
-
-	<form action="." method="post">{% csrf_token %}
-
-		{% if form.hidden_fields %}
-			{% for item in form.hidden_fields %}
-				{{ item }}
-			{% endfor %}
-		{% endif %}
-
-		{% if form.non_field_errors %}
-			<p class="form-error">
-				{% for error in form.non_field_errors %}
-					<span class="form-error-msg">{{ error }}</span>
-				{% endfor %}
-			</p>
-		{% endif %}
-
-		{% for field in form.visible_fields %}
-			<p class="form-field{% if field.field.required %} required{% endif %}">
-				<label for="id_{{ field.name }}">{{ field.label }}</label>
-				{{ field }}
-			</p>
-		{% endfor %}
-
-		<p class="form-buttons">
-			{% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
-			<input type="submit" value="{% trans 'Log in' %}">
-		</p>
-	</form>
-
-	<p><a href="{% url auth_password_reset %}">{% trans 'Forgotten your password?' %}</a></p>
-
-	{% comment %}
-	<script type="text/javascript">
-		document.getElementById('id_username').focus()
-	</script>
-	{% endcomment %}
+  <form action="." method="post" class="login_form">{% csrf_token %}
+    {{ form.as_p }}
+    <p class="submit"><button type="submit" name="submit" value="Login">Log in</button></p>
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+  </form>
 {% endblock %}

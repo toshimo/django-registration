@@ -115,7 +115,7 @@ class DefaultRegistrationBackendTests(TestCase):
 
     """
     backend = DefaultBackend()
-
+    
     def setUp(self):
         """
         Create an instance of the default backend for use in testing,
@@ -373,10 +373,10 @@ class SimpleRegistrationBackendTests(TestCase):
     """
     Test the simple registration backend, which does signup and
     immediate activation.
-
+    
     """
     backend = SimpleBackend()
-
+    
     def test_registration(self):
         """
         Test the registration process: registration creates a new
@@ -430,7 +430,7 @@ class SimpleRegistrationBackendTests(TestCase):
                                          username='bob',
                                          email='bob@example.com',
                                          password1='secret')
-
+        
         self.assertEqual(self.backend.post_registration_redirect(_mock_request(), new_user),
                          (new_user.get_absolute_url(), (), {}))
 
@@ -438,7 +438,7 @@ class SimpleRegistrationBackendTests(TestCase):
         """
         Test that registering a user sends the ``user_registered``
         signal.
-
+        
         """
         def receiver(sender, **kwargs):
             self.failUnless('user' in kwargs)
@@ -461,7 +461,7 @@ class SimpleRegistrationBackendTests(TestCase):
     def test_activation(self):
         """
         Test that activating against this backend is an error.
-
+        
         """
         self.assertRaises(NotImplementedError, self.backend.activate,
                           request=_mock_request())
@@ -470,7 +470,8 @@ class SimpleRegistrationBackendTests(TestCase):
         """
         Test that asking for a post-activation redirect from this
         backend is an error.
-
+        
         """
         self.assertRaises(NotImplementedError, self.backend.post_activation_redirect,
                           request=_mock_request(), user=User())
+        

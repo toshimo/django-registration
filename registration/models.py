@@ -242,7 +242,6 @@ class RegistrationProfile(models.Model):
             framework for details regarding these objects' interfaces.
 
         """
-
         ctx_dict = {'activation_key': self.activation_key,
                     'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
                     'site': site,

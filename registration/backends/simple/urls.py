@@ -23,7 +23,6 @@ from django.views.generic.simple import direct_to_template
 
 from registration.views import activate, register
 
-
 urlpatterns = patterns('',
     url(r'^register/$',
         register,

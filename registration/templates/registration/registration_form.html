@@ -22,25 +22,9 @@
 			</p>
 		{% endif %}
 
-		{% for field in form.visible_fields %}
-			<p class="form-field{% if field.field.required %} required{% endif %}">
-				<label for="id_{{ field.name }}">{{ field.label }}</label>
-				{{ field }}
-
-				{% if field.errors %}
-				<span class="form-field-error">{{ field.errors|join:"," }}</span>
-				{% endif %}
-			</p>
-		{% endfor %}
-
-		<p class="form-buttons">
-			<input type="submit" value="{% trans 'Create' %}">
-		</p>
-	</form>
-
-	{% comment %}
-	<script type="text/javascript">
-		document.getElementById('id_username').focus()
-	</script>
-	{% endcomment %}
+{% block content %}
+  <form action="." method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <p class="submit"><button type="submit">Submit</button></p>
+  </form>
 {% endblock %}

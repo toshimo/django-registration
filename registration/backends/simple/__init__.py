@@ -14,12 +14,12 @@ class SimpleBackend(object):
     workflow: a user supplies a username, email address and password
     (the bare minimum for a useful account), and is immediately signed
     up and logged in.
-
+    
     """
     def register(self, request, **kwargs):
         """
         Create and immediately log in a new user.
-
+        
         """
         email, password = kwargs['email'], kwargs['password1']
         username = generate_unique_username(email)
@@ -33,35 +33,34 @@ class SimpleBackend(object):
                                      user=new_user,
                                      request=request)
         return new_user
-
+    
     def activate(self, **kwargs):
         raise NotImplementedError
-
+    
     def registration_allowed(self, request):
         """
         Indicate whether account registration is currently permitted,
         based on the value of the setting ``REGISTRATION_OPEN``. This
         is determined as follows:
-
+        
         * If ``REGISTRATION_OPEN`` is not specified in settings, or is
           set to ``True``, registration is permitted.
-
+        
         * If ``REGISTRATION_OPEN`` is both specified and set to
           ``False``, registration is not permitted.
-
+        
         """
         return getattr(settings, 'REGISTRATION_OPEN', True)
-
+    
     def get_form_class(self, request):
         return EmailRegistrationForm
-        return RegistrationForm
-
+    
     def post_registration_redirect(self, request, user):
         """
         After registration, redirect to the user's account page.
-
+        
         """
         return ('registration_complete', (), {})
-
+    
     def post_activation_redirect(self, request, user):
         raise NotImplementedError

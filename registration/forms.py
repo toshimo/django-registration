@@ -44,7 +44,7 @@ class RegistrationForm(forms.Form):
         except User.DoesNotExist:
             return self.cleaned_data['username']
         raise forms.ValidationError(_("A user with that username already exists."))
-
+    
     def clean(self):
         """
         Verifiy that the values entered into the two password fields
@@ -143,8 +143,8 @@ class EmailRegistrationForm(forms.Form):
         if User.objects.filter(email=self.cleaned_data['email'].lower()):
             raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
         return self.cleaned_data['email'].lower()
-
-
+    
+    
     def clean(self):
         """
         Verifiy that the values entered into the two password fields
@@ -177,10 +177,10 @@ class EmailCodeRegistrationForm(forms.Form):
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(render_value=False),
                                 label=_("Reenter Password"))
-
+    
     def __init__(self, *args, **kwargs):
         super(EmailCodeRegistrationForm, self).__init__(*args, **kwargs)
-
+        
         # my hack - no need for sign up code if they are in a program
         if get_current_program():
             self.fields['signup_code'] = forms.CharField(max_length=40, required=False, widget=forms.widgets.HiddenInput())
@@ -197,23 +197,22 @@ class EmailCodeRegistrationForm(forms.Form):
         if User.objects.filter(email=self.cleaned_data['email'].lower()):
             raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
         return self.cleaned_data['email'].lower()
-
-
+    
     def clean_signup_code(self):
         code = self.cleaned_data.get("signup_code")
-
+        
         # my hack - no need to use signup if they are in a program
         if get_current_program():
             signup_code = True
         else:
             signup_code = check_signup_code(code)
-
+        
         if signup_code:
             return signup_code
         else:
             raise forms.ValidationError("Signup code was not valid.")
-
-
+    
+    
     def clean(self):
         """
         Verifiy that the values entered into the two password fields
@@ -233,11 +232,11 @@ class EmailAuthenticationForm(forms.Form):
     """
     Replacement to do authentication with email 
     this is used in conjunction with auth.EmailModelBackend to accept email
-
+    
     """
     email = forms.EmailField(label=_("Email"), max_length=255)
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(render_value=False))
-
+    
     def __init__(self, request=None, *args, **kwargs):
         """
         If request is passed in, the form will validate that cookies are
@@ -248,30 +247,30 @@ class EmailAuthenticationForm(forms.Form):
         self.request = request
         self.user_cache = None
         super(EmailAuthenticationForm, self).__init__(*args, **kwargs)
-
+    
     def clean(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
-
+        
         if email and password:
             self.user_cache = authenticate(email=email, password=password)
             if self.user_cache is None:
                 raise forms.ValidationError(_("Please enter a correct email and password. Note that both fields are case-sensitive."))
             elif not self.user_cache.is_active:
                 raise forms.ValidationError(_("This account is inactive."))
-
+        
         # TODO: determine whether this should move to its own method.
         if self.request:
             if not self.request.session.test_cookie_worked():
                 raise forms.ValidationError(_("Your Web browser doesn't appear to have cookies enabled. Cookies are required for logging in."))
-
+        
         return self.cleaned_data
-
+    
     def get_user_id(self):
         if self.user_cache:
             return self.user_cache.id
         return None
-
+    
     def get_user(self):
         return self.user_cache
 
@@ -352,5 +351,4 @@ class EmailOrUsernameAuthenticationForm(forms.Form):
     
     def get_user(self):
         return self.user_cache
-
 

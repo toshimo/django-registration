@@ -10,9 +10,7 @@ from django.template.loader import render_to_string
 from django.utils.hashcompat import sha_constructor
 from django.utils.translation import ugettext_lazy as _
 
-
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
-
 
 class RegistrationManager(models.Manager):
     """
@@ -54,7 +52,7 @@ class RegistrationManager(models.Manager):
                 user = profile.user
                 user.is_active = True
                 user.save()
-                profile.activation_key = self.model.ACTIVATED
+                profile.activated = True
                 profile.save()
                 return user
         return False
@@ -120,10 +118,11 @@ class RegistrationProfile(models.Model):
     account registration and activation.
     
     """
-    ACTIVATED = u"ALREADY_ACTIVATED"
     
-    user = models.OneToOneField(User, primary_key=True, verbose_name=_('user'))
+    user = models.OneToOneField(User, primary_key=True, verbose_name=_('User'))
+    activated = models.BooleanField(default=False)
     activation_key = models.CharField(_('activation key'), max_length=40)
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date Created'))
     
     objects = RegistrationManager()
     
@@ -135,7 +134,7 @@ class RegistrationProfile(models.Model):
         return u"Registration information for %s" % self.user
     
     def is_activated(self):
-        return self.activation_key == self.ACTIVATED
+        return self.activated
     
     def activation_key_expired(self):
         """
@@ -161,7 +160,7 @@ class RegistrationProfile(models.Model):
         """
         expiration_date = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS)
         return self.is_activated() or \
-               (self.user.date_joined + expiration_date <= datetime.datetime.now())
+               (self.created + expiration_date <= datetime.datetime.now())
     activation_key_expired.boolean = True
     
     def send_activation_email(self, site):

@@ -25,7 +25,7 @@ class SimpleBackend(DefaultBackend):
         email, password = kwargs['email'], kwargs['password1']
         username = generate_unique_username(email)
         User.objects.create_user(username, email, password)
-
+        
         # authenticate() always has to be called before login(), and
         # will return the user we just created.
         new_user = authenticate(email=email, password=password)

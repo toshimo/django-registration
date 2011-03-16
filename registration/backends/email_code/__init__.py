@@ -5,8 +5,8 @@ from django.contrib.sites.models import Site
 from registration import signals
 from registration.forms import EmailCodeRegistrationForm
 from registration.models import RegistrationProfile
+from registration.util import generate_unique_username
 
-from utils import generate_unique_username
 from signup_codes.models import SignupCode
 
 

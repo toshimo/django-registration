@@ -4,11 +4,9 @@ from django.contrib.sites.models import Site
 
 from registration import signals
 from registration.forms import EmailCodeRegistrationForm
-from registration.models import RegistrationProfile
+from registration.models import RegistrationProfile, RegistrationCode
 from registration.util import generate_unique_username
 from registration.backends.email import EmailBackend
-
-from signup_codes.models import SignupCode
 
 
 class EmailCodeBackend(EmailBackend):
@@ -74,14 +72,16 @@ class EmailCodeBackend(EmailBackend):
         class of this backend as the sender.
         
         """
-        
-        new_user = super(EmailCodeBackend, self).register(request, **kwargs)
-        
-        signup_code = kwargs.get("signup_code", None)
-        if type(signup_code) == type(SignupCode()):
-            signup_code.use(new_user)
-        
-        return new_user
+        signup_code_arg = kwargs.get("signup_code", None)
+        if signup_code_arg:
+            try:
+                signup_code = RegistrationCode.objects.get(code=signup_code_arg)
+                new_user = super(EmailCodeBackend, self).register(request, **kwargs)
+                signup_code.use(new_user)
+                return new_user
+            except SignupCode.DoesNotExist:
+                pass
+        return False
     
     def get_form_class(self, request):
         """

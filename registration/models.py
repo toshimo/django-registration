@@ -215,19 +215,3 @@ class RegistrationProfile(models.Model):
         
         self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
     
-
-#class RegistrationCode(models.Model):
-#    """
-#    A simple class which stores a list of codes for registration.
-#    
-#    Each code has a usage count that is incremented upon using. In
-#    addition, each code can have an optional limit to the number of
-#    times it was used.
-#    
-#    """
-#    
-#    code = models.CharField(_('registration code'), max_length=40)
-#    count = models.PositiveIntegerField(default=0)
-#    limit = models.PositiveIntegerField(default=None, null=True)
-#    created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date Created'))
-#

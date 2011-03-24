@@ -11,7 +11,9 @@ class Migration(SchemaMigration):
         # Adding model 'RegistrationProfile'
         db.create_table('registration_registrationprofile', (
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, primary_key=True)),
+            ('activated', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('activation_key', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
         ))
         db.send_create_signal('registration', ['RegistrationProfile'])
 
@@ -61,7 +63,9 @@ class Migration(SchemaMigration):
         },
         'registration.registrationprofile': {
             'Meta': {'object_name': 'RegistrationProfile'},
+            'activated': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'activation_key': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True', 'primary_key': 'True'})
         }
     }

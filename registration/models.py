@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db import transaction
 from django.template.loader import render_to_string
+from django.template import TemplateDoesNotExist
 from django.utils.hashcompat import sha_constructor
 from django.utils.translation import ugettext_lazy as _
 
@@ -58,7 +59,8 @@ class RegistrationManager(models.Manager):
         return False
     
     def create_inactive_user(self, username, email, password,
-                             site, send_email=True):
+                             site, send_email=True,
+                             first_name=None, last_name=None):
         """
         Create a new, inactive ``User``, generate a
         ``RegistrationProfile`` and email its activation key to the
@@ -70,6 +72,9 @@ class RegistrationManager(models.Manager):
         """
         new_user = User.objects.create_user(username, email, password)
         new_user.is_active = False
+        if first_name and last_name:
+            new_user.first_name = first_name
+            new_user.last_name = last_name
         new_user.save()
         
         registration_profile = self.create_profile(new_user)
@@ -204,30 +209,26 @@ class RegistrationProfile(models.Model):
         ctx_dict = {'activation_key': self.activation_key,
                     'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
                     'site': site,
+                    'user': self.user,
                     }
         subject = render_to_string('registration/activation_email_subject.txt',
                                    ctx_dict)
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
         
-        message = render_to_string('registration/activation_email.txt',
+        text_content = render_to_string('registration/activation_email.txt',
                                    ctx_dict)
+        try:
+            html_content = render_to_string('registration/activation_email.html',
+                                    ctx_dict)
+        except TemplateDoesNotExist:
+            html_content = None
         
-        self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+        from django.core.mail import EmailMultiAlternatives
+        msg = EmailMultiAlternatives(subject, text_content,
+            settings.DEFAULT_FROM_EMAIL, [self.user.email])
+        if html_content:
+            msg.attach_alternative(html_content, "text/html")
+        
+        msg.send()
     
-
-#class RegistrationCode(models.Model):
-#    """
-#    A simple class which stores a list of codes for registration.
-#    
-#    Each code has a usage count that is incremented upon using. In
-#    addition, each code can have an optional limit to the number of
-#    times it was used.
-#    
-#    """
-#    
-#    code = models.CharField(_('registration code'), max_length=40)
-#    count = models.PositiveIntegerField(default=0)
-#    limit = models.PositiveIntegerField(default=None, null=True)
-#    created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date Created'))
-#

@@ -127,11 +127,11 @@ class EmailRegistrationForm(forms.Form):
     registration backend.
     
     """
-    email = forms.EmailField(widget=forms.TextInput(attrs=dict(maxlength=75)),
+    email = forms.EmailField(widget=forms.TextInput(attrs=dict(maxlength=75, placeholder=_("Email address"))),
                              label=_("Email address"))
-    password1 = forms.CharField(widget=forms.PasswordInput(render_value=False),
+    password1 = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs=dict(placeholder=_("Password"))),
                                 label=_("Password"))
-    password2 = forms.CharField(widget=forms.PasswordInput(render_value=False),
+    password2 = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs=dict(placeholder=_("Reenter Password"))),
                                 label=_("Reenter Password"))
     
     def clean_email(self):

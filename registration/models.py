@@ -60,7 +60,8 @@ class RegistrationManager(models.Manager):
     
     def create_inactive_user(self, username, email, password,
                              site, send_email=True,
-                             first_name=None, last_name=None):
+                             first_name=None, last_name=None,
+                             is_active=False):
         """
         Create a new, inactive ``User``, generate a
         ``RegistrationProfile`` and email its activation key to the
@@ -71,7 +72,7 @@ class RegistrationManager(models.Manager):
         
         """
         new_user = User.objects.create_user(username, email, password)
-        new_user.is_active = False
+        new_user.is_active = is_active
         if first_name and last_name:
             new_user.first_name = first_name
             new_user.last_name = last_name
@@ -100,8 +101,7 @@ class RegistrationManager(models.Manager):
         if isinstance(username, unicode):
             username = username.encode('utf-8')
         activation_key = sha_constructor(salt+username).hexdigest()
-        return self.create(user=user,
-                           activation_key=activation_key)
+        return self.create(user=user, activation_key=activation_key)
         
     def delete_expired_users(self):
         raise DeprecationWarning("This method has been removed. Please use the 'delete_expired_users' on the correct backend.")

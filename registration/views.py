@@ -72,10 +72,7 @@ def activate(request, backend,
     
     """
     backend = get_backend(backend)
-    import logging
-    import logging
-    log = logging.getLogger(__name__)
-    log.debug('Got backend %s' % backend)
+    
     account = backend.activate(request, **kwargs)
     
     if account:

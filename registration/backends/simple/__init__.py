@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from registration import signals
 from registration.backends.default import DefaultBackend
-from registration.forms import RegistrationForm, EmailRegistrationForm
+from registration.forms import RegistrationForm, EmailRegistrationReenterForm
 from registration.utils import generate_unique_username
 
 
@@ -54,7 +54,7 @@ class SimpleBackend(DefaultBackend):
         return getattr(settings, 'REGISTRATION_OPEN', True)
     
     def get_form_class(self, request):
-        return EmailRegistrationForm
+        return EmailRegistrationReenterForm
     
     def post_registration_redirect(self, request, user):
         """

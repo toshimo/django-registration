@@ -158,6 +158,46 @@ class EmailRegistrationForm(forms.Form):
                 raise forms.ValidationError(_("The two password fields didn't match."))
         return self.cleaned_data
 
+class EmailRegistrationReenterForm(forms.Form):
+    """
+    """
+    email = forms.EmailField(widget=forms.TextInput(attrs=dict(maxlength=75, placeholder=_("Email address"))),
+                             label=_("Email address"))
+    email2 = forms.EmailField(widget=forms.TextInput(attrs=dict(maxlength=75, placeholder=_("Reenter Email address"))),
+                             label=_("Reenter Email address"))
+    password1 = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs=dict(placeholder=_("Password"))),
+                                label=_("Password"))
+    password2 = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs=dict(placeholder=_("Reenter Password"))),
+                                label=_("Reenter Password"))
+    
+    def clean_email(self):
+        """
+        Validate that the supplied email address is unique for the
+        site.
+        
+        """
+        if User.objects.filter(email=self.cleaned_data['email'].lower()):
+            raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
+        return self.cleaned_data['email'].lower()
+    
+    
+    def clean(self):
+        """
+        Verifiy that the values entered into the two password fields
+        match. Note that an error here will end up in
+        ``non_field_errors()`` because it doesn't apply to a single
+        field.
+        
+        """
+        if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
+            if self.cleaned_data['password1'] != self.cleaned_data['password2']:
+                raise forms.ValidationError(_("The two password fields didn't match."))
+        if 'email' in self.cleaned_data and 'email2' in self.cleaned_data:
+            if self.cleaned_data['email'] != self.cleaned_data['email2']:
+                raise forms.ValidationError(_("The two email fields didn't match."))
+
+        return self.cleaned_data
+
 
 
 
